@@ -1,0 +1,146 @@
+Merge K sorted arrays
+Send Feedback
+Given k different arrays, which are sorted individually (in ascending order). You need to merge all the given arrays such that output array should be sorted (in ascending order).
+Hint : Use Heaps.
+Input Format:
+The first line of input contains an integer, that denotes value of k.
+The following lines of input represent k sorted arrays. Each sorted array uses two lines of input. The first line contains an integer, that denotes the size of the array. The following line contains elements of the array.
+Output Format:
+The first and only line of output contains space separated elements of the merged and sorted array, as described in the task.
+Constraints:
+0 <= k <= 1000
+0 <= n1, n2 <= 10000
+Time Limit: 1 second
+Sample Input 1:
+4
+3
+1 5 9
+2
+45 90
+5
+2 6 78 100 234
+1
+0
+Sample Output 1:
+0 1 2 5 6 9 45 78 90 100 234
+
+
+
+
+
+import java.util.*;
+public class Solution {
+
+
+   private static void insertIntoVirtualHeap(ArrayList<Integer> arr, int i) 
+    {
+       int childIndex = i;
+       int parentIndex = (childIndex-1)/2;
+       while(childIndex>0){
+           if(arr.get(childIndex)<arr.get(parentIndex))
+           {
+              
+              int temp = arr.get(childIndex);
+            arr.set(childIndex,arr.get(parentIndex));
+            arr.set(parentIndex,temp);
+              childIndex = parentIndex;
+              parentIndex = (childIndex-1)/2;
+           }else
+           {
+               return;
+           }
+       }
+    }
+    
+
+    private static int removeMinFromVirtualHeap(ArrayList<Integer> arr, int heapSize)
+    {
+      int temp = arr.get(0);
+    //   arr[0]=arr[heapSize-1];
+      arr.set(0,arr.get(heapSize-1));
+      heapSize--;
+      int index=0;
+      int leftChildIndex = (2*index)+1;
+      int rightChildIndex = (2*index)+2;
+      while(leftChildIndex<heapSize){
+          int minIndex = index;
+          if(arr.get(leftChildIndex)<arr.get(minIndex)){
+              minIndex = leftChildIndex;
+          }
+          if(rightChildIndex < heapSize && arr.get(rightChildIndex)<arr.get(minIndex)){
+              minIndex = rightChildIndex;
+          }
+          if(minIndex!=index){
+             int temp1 = arr.get(index);
+            //  arr[index] = arr[minIndex];
+             arr.set(index,arr.get(minIndex));
+            arr.set(minIndex,temp1);
+             index = minIndex;
+             leftChildIndex = 2*index+1;
+             rightChildIndex = 2*index+2;
+          }else{
+              break;
+          }
+        
+      }
+     return temp;
+    }
+
+ 
+
+
+	public static ArrayList<Integer> inplaceHeapSort(ArrayList<Integer> arr) {
+     
+	  for(int i=0;i<arr.size();i++)
+        {
+           insertIntoVirtualHeap(arr, i);
+
+        }
+
+
+		    for(int i=0;i<arr.size();i++){
+
+            arr.set(arr.size()-1-i,removeMinFromVirtualHeap(arr, arr.size()-i)  );
+            
+        }
+int i=0;
+int j=arr.size()-1;
+   
+   while(i<j){
+  int temp = arr.get(i);
+arr.set(i,arr.get(j));
+arr.set(j,temp);
+i++;
+j--;
+   }
+
+
+return arr;
+	
+	}
+	
+public static ArrayList<Integer> mergeKSortedArrays(ArrayList<ArrayList<Integer>> input) {
+
+if(input.size()==0)
+return null;
+
+ArrayList<Integer> arr = input.get(0);
+int i=1;
+
+
+while(i<input.size()){
+ arr.addAll( arr.size() , input.get(i));
+i++;
+}
+
+
+return inplaceHeapSort(arr);
+
+}
+
+
+
+
+	
+
+}
