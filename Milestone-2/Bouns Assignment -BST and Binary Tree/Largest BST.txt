@@ -1,0 +1,102 @@
+Largest BST
+Send Feedback
+Given a Binary tree, find the largest BST subtree. That is, you need to find the BST with maximum height in the given binary tree. You have to return the height of largest BST.
+Input format :
+The first line of input contains data of the nodes of the tree in level order form. The data of the nodes of the tree is separated by space. If any node does not have left or right child, take -1 in its place. Since -1 is used as an indication whether the left or right nodes exist, therefore, it will not be a part of the data of any node.
+Output format:
+The first and only line of output contains the height of the largest BST.
+Constraints:
+Time Limit: 1 second
+Sample Input 1:
+5 10 6 2 3 -1 -1 -1 -1 -1 9 -1 -1
+Sample Output 1:
+2
+
+
+
+import java.util.*;
+public class Solution {
+	/*
+	 * BinaryTreeNode class
+	 * 
+	 * class BinaryTreeNode<T> 
+	 * { 
+	 * 		T data; 
+	 * 		BinaryTreeNode<T> left; 
+	 * 		BinaryTreeNode<T> right;
+	 *		public BinaryTreeNode(T data) 
+	 *		{
+	 *  		this.data = data; 
+	 *  	} 
+	 *  }
+	 */
+    public static ArrayList<Integer> check ;
+    public static void inorder(BinaryTreeNode<Integer> root){
+        
+        if(root ==null)
+        return;
+        
+        inorder(root.left);
+        check.add(root.data);
+        inorder(root.right);
+        
+    }
+    
+    
+
+	public static boolean isBST(BinaryTreeNode<Integer> root) {
+
+		
+     check = new ArrayList<Integer>();
+     inorder(root);
+        
+        for(int i=1;i<check.size();i++){
+            
+            if(check.get(i-1)>=check.get(i))
+            return false;
+        }
+        
+        return true; 
+	}
+    
+    
+    
+    
+    
+    public static int height(BinaryTreeNode<Integer> root){
+        
+        if(root==null)
+        return 0;
+        
+       int left  = height(root.left);
+       int right = height(root.right); 
+        
+        if(left>right)
+            return left +1;
+        
+        return right + 1;
+    }
+    
+    
+	
+	public static int largestBSTSubtree(BinaryTreeNode<Integer> root) {
+	
+         int left=0,right=0;
+        
+        if(isBST(root)){
+        return height(root);  
+        }
+         
+        else{
+           left = largestBSTSubtree(root.left);
+           right= largestBSTSubtree(root.right);
+        }
+        
+        if(left>right)
+            return left;
+        
+        return right;
+        
+	}
+
+}
