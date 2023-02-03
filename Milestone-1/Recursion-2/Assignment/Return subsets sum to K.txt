@@ -1,0 +1,126 @@
+Return subsets sum to K
+
+Given an array A of size n and an integer K, return all subsets of A which sum to K.
+Subsets are of length varying from 0 to n, that contain elements of the array. But the order of elements should remain same as in the input array.
+
+
+Note : The order of subsets are not important.
+
+
+Input format :
+Line 1 : Integer n, Size of input array
+Line 2 : Array elements separated by space
+Line 3 : K 
+
+Constraints :
+1 <= n <= 20
+
+Sample Input :
+9 
+5 12 3 17 1 18 15 3 17 
+6
+Sample Output :
+3 3
+5 1
+
+
+
+
+import java.util.Arrays;
+import java.util.ArrayList;
+public class solution {
+
+
+    // time complexity is big o(2^n-1) and space complexity is
+    
+  private static int[][] subsetsSumK(int input[],int start,int end,int k){
+          
+         
+         
+         if(start==input.length){
+          int arr[][];
+         
+       if(k==0 ){
+        
+           arr= new int[1][0];
+       }
+       
+       else
+      arr = new int[0][0];
+    
+    
+        return arr;
+         }
+    
+    
+       
+        
+    int result1 [][] = subsetsSumK(input,start+1,end,k-input[start]);
+    int result2 [][] = subsetsSumK(input,start+1,end,k);
+    int finalresult[][] = new int [result2.length + result1.length][];
+    
+    int row=0;
+    int col=0;
+    
+      for( int i=0;i<result2.length;i++){
+      
+      
+     
+      finalresult[row] = new int[result2[i].length];
+     for (int j=0;j<result2[i].length;j++){
+         
+        
+     finalresult[row][j] = result2[i][j];
+     }
+     row++;
+      }
+      
+      
+    
+      for(int i=0;i<result1.length;i++){
+      
+      
+     
+      finalresult[row] = new int[result1[i].length + 1];
+      finalresult[row][0] = input[start];
+      
+     
+     for (int j=1;j<=result1[i].length;j++){
+         
+        
+     finalresult[row][j] = result1[i][j-1];
+     }
+     row++;
+     
+      }
+    
+   
+   
+   
+   return finalresult ;
+
+
+      }
+    
+    
+    
+    public static int[][] subsetsSumK(int input[], int k){
+        
+         
+        return subsetsSumK( input,0,input.length-1,k);
+        
+    } 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+}
+ 
+

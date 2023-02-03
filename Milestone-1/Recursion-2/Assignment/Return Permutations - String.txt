@@ -1,0 +1,66 @@
+Return Permutations - String
+
+Given a string S, find and return all the possible permutations of the input string.
+Note 1 : The order of permutations is not important.
+Note 2 : If original string contains duplicate characters, permutations will also be duplicates.
+
+Input Format :
+String S
+Output Format :
+All permutations (in different lines)
+
+Sample Input :
+abc
+Sample Output :
+abc
+acb
+bac
+bca
+cab
+cba
+
+
+public class solution {
+	
+    
+    public static int fact(int n){
+        if(n==0)
+        return 1;
+        
+        else
+        return n*fact(n-1);
+        
+    }
+    
+    
+ 	public static String[] permutationOfString(String s){
+		// Write your code here
+		// TC = big O(n!*n) 
+        
+		if(s.length()==2){
+		    String arr[] = new String [2];
+		    arr[0] = s.substring(0,1) + s.substring(1);
+		    arr[1] = s.substring(1) + s.substring(0,1);
+		    return arr;
+		}
+		
+		String []sequence = new String[fact(s.length())];
+		int index=0;
+		
+		for(int i=0;i<s.length();i++){
+		    String arr[] = permutationOfString(s.substring(0,i) + s.substring(i+1));
+		    
+		    for (int j=0;j<arr.length ;j++){
+		       sequence[index] = s.substring(i,i+1) + arr[j] ;
+		       index++;
+		        
+		    } 
+		    
+		    
+		}
+		return sequence;
+		
+		
+	}
+	
+}

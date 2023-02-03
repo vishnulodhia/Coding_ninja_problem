@@ -1,0 +1,99 @@
+Next Number
+
+Given a large number represented in the form of a linked list. Write code to increment the number by 1 in-place(i.e. without using extra space).
+Note: You don't need to print the elements, just update the elements and return the head of updated LL.
+
+Input Constraints:
+1 <= Length of Linked List <=10^6.
+
+Input format :
+Line 1 : Linked list elements (separated by space and terminated by -1)
+Output Format :
+Line 1: Updated linked list elements 
+Sample Input 1 :
+3 9 2 5 -1
+Sample Output 1 :
+3 9 2 6
+Sample Input 2 :
+9 9 9 -1
+Sample Output 1 :
+1 0 0 0 
+
+
+/*************** 
+ * Following is the Node class already written 
+class LinkedListNode<T> {
+	T data;
+	LinkedListNode<T> next;
+
+	public LinkedListNode(T data) {
+		this.data = data;
+	}
+}
+ ***************/
+import java.util.*;
+public class Solution {
+
+ 
+    
+    
+	public static LinkedListNode<Integer> nextLargeNumber(LinkedListNode<Integer> head) {
+   
+        
+        if(head==null)
+        return null;
+        
+        LinkedListNode<Integer> pre = null;
+        
+        while(head!=null){
+           LinkedListNode<Integer> temp = head.next;
+            head.next = pre;
+            pre = head;
+            head = temp;
+        }
+        LinkedListNode<Integer> temp1 = pre;
+        LinkedListNode<Integer> prev = null;
+        while(temp1!=null){
+            
+            if(temp1.data + 1>=10){
+            temp1.data = 0;
+            prev = temp1;    
+            temp1 = temp1.next; 
+                }
+            else{
+                temp1.data = temp1.data + 1;
+                break;
+            }
+            
+            
+        }
+        
+        if(temp1==null){
+            LinkedListNode<Integer> n = new LinkedListNode<Integer>(1);
+            prev.next = n;
+        }
+        
+        
+        
+        
+        
+        LinkedListNode<Integer> ans = null;
+        
+        while(pre!=null){
+             temp1 = pre.next;
+            pre.next = ans;
+            ans = pre;
+            pre = temp1;
+        }
+        
+        
+        return ans;
+        
+        
+        
+	}
+
+
+}
+
+

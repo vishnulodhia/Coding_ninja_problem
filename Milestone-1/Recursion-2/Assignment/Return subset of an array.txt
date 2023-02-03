@@ -1,0 +1,110 @@
+Return subset of an array
+
+Given an integer array (of length n), find and return all the subsets of input array.
+Subsets are of length varying from 0 to n, that contain elements of the array. But the order of elements should remain same as in the input array.
+
+
+Note : The order of subsets are not important.
+
+
+Input format :
+
+Line 1 : Size of array
+
+Line 2 : Array elements (separated by space)
+
+Sample Input:
+3
+15 20 12
+Sample Output:
+[] (this just represents an empty array, don't worry about the square brackets)
+12 
+20 
+20 12 
+15 
+15 12 
+15 20 
+15 20 12 
+
+
+
+public class solution {
+
+	// Return a 2D array that contains all the subsets
+    
+  private static int[][] subsets(int input[],int start,int end){
+    
+       if(start>end){
+       
+           return new int[1][0];
+        }
+        
+    int arr[][] = subsets(input,start+1,end);
+    int result[][] = new int[arr.length*2][];
+    int row =0;
+    int i;
+   
+  for( i=0;i<arr.length;i++){
+      
+      
+     
+      result[i] = new int[arr[i].length];
+     for (int j=0;j<result[i].length;j++){
+         
+        
+     result[i][j] = arr[i][j];
+     }
+      
+  }  
+  
+
+
+
+    
+    
+   int size=0;
+    for(row=i;row<result.length;row++){
+        
+        result[row] = new int[arr[size].length+1];
+        
+        int colback=arr[size].length-1;
+        for (int col=result[row].length-1;col>0 && colback>=0;col--){
+            
+            // if(result[row][col]==0 && start!=input.length)
+            // continue;
+            
+        result[row][col] = arr[size][colback];
+        colback--;
+            
+        } 
+      result[row][0] = input[start];   
+      
+      size++;
+        
+        
+        
+        
+        
+    }
+    
+    
+    return result;
+    
+    
+    
+    
+        
+    }
+    
+		public static int[][] subsets(int input[]) {
+		    
+        return subsets(input,0,input.length-1);
+    
+	}
+}
+
+
+
+
+
+ 
